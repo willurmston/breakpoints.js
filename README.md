@@ -6,15 +6,15 @@ Tiny library that fires callbacks when the browser window enters or exits width 
 // the main object is exposed as window.breakpoints
 
 // use a built in preset
-  window.breakpoints.add('bootstrap3')
+breakpoints.add('bootstrap3')
 
-  // or add your own breakpoints
-  breakpoints.add({
-    'xs' : '<=767',
-    'sm' : '>768',
-    'md' : '>992',
-    'lg' : '>1200'
-  })
+// or add your own breakpoints
+breakpoints.add({
+  'xs' : '<=767',
+  'sm' : '>768',
+  'md' : '>992',
+  'lg' : '>1200'
+})
   
 // add callbacks
 breakpoints
