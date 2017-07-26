@@ -3,6 +3,7 @@ Tiny library that fires callbacks when the browser window enters or exits width 
 
 ## How 2 use
 ```javascript
+// the main object is exposed as window.breakpoints
 
 // use a built in preset
   window.breakpoints.add('bootstrap3')
@@ -15,7 +16,7 @@ Tiny library that fires callbacks when the browser window enters or exits width 
     'lg' : '>1200'
   })
   
-// the main object is available as window.breakpoints
+// add callbacks
 breakpoints
     // add a callback to one breakpoint
     .onEnter( 'sm', console.log )
