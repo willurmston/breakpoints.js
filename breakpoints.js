@@ -23,8 +23,15 @@
     }
   }
 
-  var Breakpoints = function() {}
-  window.breakpoints = new Breakpoints()
+  // define constructor
+  function Breakpoints(breakpoints) {
+    this.add(breakpoints)
+    // add resize listener
+    window.addEventListener('resize', this.resizeHandler)
+  }
+
+  window.Breakpoints = Breakpoints
+
 
   // PRESETS
   Breakpoints.prototype.presets = {
@@ -62,18 +69,18 @@
 
           if (breakpoints.firstResize) {
             for (var i=0;i<bp.enter.length;i++) {
-              bp.enter[i](bp)
+              bp.enter[i](bp, 'enter', width)
             }
           } else {
             breakpoints.firstResize = false
           }
 
-          if (options.debug) debug('enter', bp)
+          if (options.debug) debug(bp, 'enter')
         }
 
         // call WHILE callbacks
         for (var i=0;i<bp.while.length;i++) {
-          bp.while[i](bp)
+          bp.while[i](bp, 'while', width)
         }
 
       } else {
@@ -86,10 +93,10 @@
 
           // call exit callbacks
           for (var i=0;i<bp.exit.length;i++) {
-            bp.exit[i](bp)
+            bp.exit[i](bp, 'exit', width)
           }
 
-          if (options.debug) debug('exit', bp)
+          if (options.debug) debug(bp, 'exit')
         }
       }
     })
@@ -197,11 +204,10 @@
     exit: 'darkred'
   }
   // internal debug callback
-  function debug(type, bp) {
+  function debug(bp, type) {
     console.log('%c '+type.toUpperCase()+'ED BREAKPOINT: "'+bp.name+'" ('+bp.operator+bp.pixels+')', 'color: '+debugColors[type]+';')
   }
 
-  window.addEventListener('resize', breakpoints.resizeHandler)
 
 
 })();

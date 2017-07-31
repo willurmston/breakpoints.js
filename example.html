@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Breakpoints Demo</title>
+    <style media="screen">
+      * {
+        font-family: Helvetica, sans-serif;
+      }
+    </style>
+  </head>
+  <body>
+    <script src="breakpoints.js" charset="utf-8"></script>
+    <script type="text/javascript">
+
+      var breakpoints = new Breakpoints({
+        'xs' : '<=767',
+        'sm' : '>768',
+        'md' : '>992',
+        'lg' : '>1200'
+      })
+
+      function doStuff(bp, type, windowWidth) {
+        document.body.innerHTML += '<p>'+type+' '+bp.name+' at '+windowWidth+'px</p>'
+      }
+
+      breakpoints.onEnter('sm', doStuff)
+      breakpoints.onExit('md', doStuff)
+      breakpoints.while('lg', doStuff)
+
+      // now try resizing the window
+
+      // uncomment to log all entrances/exits
+      // breakpoints.debug()
+
+    </script>
+    <p>resize the window!</p>
+  </body>
+</html>

@@ -3,28 +3,35 @@ Tiny library that fires callbacks when the browser window enters or exits width 
 
 ## How 2 use
 ```javascript
-// the main object is exposed as window.breakpoints
+// the constructor is exposed as window.Breakpoints
+// valid operators: <=, >=, <, >
+var breakpoints = new Breakpoints({
+  'xs' : '<=767',
+  'sm' : '>768',
+  'md' : '>992',
+  'lg' : '>1200'
+})
 
-// use a built in preset
-breakpoints.add('bootstrap3')
+// or use a built in preset (bootstrap 3 only at this time)
+var breakpoints = new Breakpoints('bootstrap3')
 
-// or add your own breakpoints
+// or add more after instantiation
 breakpoints.add({
   'xs' : '<=767',
   'sm' : '>768',
   'md' : '>992',
   'lg' : '>1200'
 })
-  
+
 // add callbacks
 breakpoints
     // add a callback to one breakpoint
-    .onEnter( 'sm', console.log )
-    .onExit(  'lg', console.log )
-    .while(   'md', console.log )
+    .onEnter( 'sm', myCallback )
+    .onExit(  'lg', myCallback )
+    .while(   'md', myCallback )
     // add callbacks to all breakpoints
-    .onAllEnter( console.log )
-    .onAllExit(  console.log )
+    .onAllEnter( myCallback )
+    .onAllExit(  myCallback )
     // log all entrances and exits
     .debug()
 
