@@ -23,47 +23,13 @@
     }
   }
 
-  // define constructor
-  function Breakpoints(breakpoints) {
-    this.add(breakpoints)
-    // add resize listener
-    window.addEventListener('resize', this.resizeHandler)
-  }
-
-  window.Breakpoints = Breakpoints
-
-
-  // PRESETS
-  Breakpoints.prototype.presets = {
-    'bootstrap3': {
-      'xs' : '<=767',
-      'sm' : '>768',
-      'md' : '>992',
-      'lg' : '>1200'
-    },
-    'bootstrap4': {
-      'xs' : '<=576px',
-      'sm' : '>576px',
-      'md' : '>768px',
-      'lg' : '>992px',
-      'xl' : '>1200px'
-    }
-  }
-
-
-  // return accessible array of active breakpoints
-  Object.defineProperty( Breakpoints.prototype, 'active', {
-    get: function() {
-      return Object.keys(this)
-    }
-  })
-
-  Breakpoints.prototype.firstResize = true
-
-  Breakpoints.prototype.resizeHandler = function() {
+  // add resize listener
+  function resizeHandler(bpInstance) {
     var width = getViewportSize().width
 
-    iterate(breakpoints, function(bp, name) {
+    iterate(bpInstance, function(bp, name) {
+      console.log(bpInstance, bp, name)
+      console.log(width, bp.operator, bp.pixels)
 
       // IF WE ARE INSIDE THIS BREAKPOINT NOW
       if ( eval(String(width) + String(bp.operator) + String(bp.pixels) )) {
@@ -74,12 +40,12 @@
           // activate breakpoint
           bp.isActive = true
 
-          if (breakpoints.firstResize) {
+          if (bpInstance.firstResize) {
             for (var i=0;i<bp.enter.length;i++) {
               bp.enter[i](bp, 'enter', width)
             }
           } else {
-            breakpoints.firstResize = false
+            bpInstance.firstResize = false
           }
 
           if (options.debug) debug(bp, 'enter')
@@ -108,6 +74,45 @@
       }
     })
   }
+
+  // define constructor
+  window.Breakpoints = function(breakpoints) {
+    var _this = this
+
+
+    this.add(breakpoints)
+    window.addEventListener('resize', function() {
+      resizeHandler(_this)
+    })
+  }
+
+
+  // PRESETS
+  Breakpoints.prototype.presets = {
+    'bootstrap3': {
+      'xs' : '<=767',
+      'sm' : '>768',
+      'md' : '>992',
+      'lg' : '>1200'
+    },
+    'bootstrap4': {
+      'xs' : '<=576',
+      'sm' : '>576',
+      'md' : '>768',
+      'lg' : '>992',
+      'xl' : '>1200'
+    }
+  }
+
+
+  // return accessible array of active breakpoints
+  Object.defineProperty( Breakpoints.prototype, 'active', {
+    get: function() {
+      return Object.keys(this)
+    }
+  })
+
+  Breakpoints.prototype.firstResize = true
 
   // the operators that we will search the strings for
   Breakpoints.prototype.operators = ['<=','>=','<','>']
@@ -155,7 +160,7 @@
       })
     }
 
-    this.resizeHandler()
+    resizeHandler(this)
 
     return this
   }
