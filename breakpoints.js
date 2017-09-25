@@ -28,8 +28,6 @@
     var width = getViewportSize().width
 
     iterate(bpInstance, function(bp, name) {
-      console.log(bpInstance, bp, name)
-      console.log(width, bp.operator, bp.pixels)
 
       // IF WE ARE INSIDE THIS BREAKPOINT NOW
       if ( eval(String(width) + String(bp.operator) + String(bp.pixels) )) {
