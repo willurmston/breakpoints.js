@@ -12,7 +12,7 @@ var breakpoints = new Breakpoints({
   'lg' : '>1200'
 })
 
-// or use a built in preset (bootstrap 3 only at this time)
+// or use a built-in preset ('bootstrap3' or 'bootstrap4')
 var breakpoints = new Breakpoints('bootstrap3')
 
 // or add more after instantiation
